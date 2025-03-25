@@ -4,9 +4,11 @@
   "description": "A modern version of cl1p.net for sharing snippets",
   "scripts": {
     "dev": "vite",
-    "build": "npm install && tsc && vite build",
+    "build:frontend": "vite build",
+    "build:worker": "wrangler build",
     "preview": "vite preview",
-    "deploy": "wrangler deploy"
+    "deploy:worker": "npm run build:frontend && wrangler deploy",
+    "deploy:frontend": "npm run build:frontend"
   },
   "dependencies": {
     "@fontsource/nunito-sans": "^5.0.0",
