@@ -4,6 +4,7 @@ import { prettyJSON } from 'hono/pretty-json';
 
 interface Env {
   SNIPPETS: KVNamespace;
+  ALLOWED_ORIGINS: string;
 }
 
 interface Snippet {
@@ -14,7 +15,25 @@ interface Snippet {
 
 const app = new Hono<{ Bindings: Env }>();
 
-app.use('*', cors());
+// Configure CORS with dynamic allowed origins
+app.use('*', async (c, next) => {
+  const allowedOrigins = c.env.ALLOWED_ORIGINS.split(',');
+  const origin = c.req.header('Origin');
+  
+  if (origin && allowedOrigins.includes(origin)) {
+    await cors({
+      origin: origin,
+      allowMethods: ['GET', 'POST', 'OPTIONS'],
+      allowHeaders: ['Content-Type'],
+      exposeHeaders: ['Content-Length'],
+      maxAge: 600,
+      credentials: true,
+    })(c, next);
+  } else {
+    await next();
+  }
+});
+
 app.use('*', prettyJSON());
 
 // Create a new snippet

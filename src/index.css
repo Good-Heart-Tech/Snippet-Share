@@ -14,7 +14,7 @@
   }
   
   .input-field {
-    @apply bg-charcoal border border-gray-700 rounded-lg p-3 text-white focus:outline-none focus:border-cornflower transition-all duration-200;
+    @apply bg-charcoal border border-gray-600 rounded-lg p-3 text-white focus:outline-none focus:border-cornflower transition-all duration-200;
   }
   
   .container {

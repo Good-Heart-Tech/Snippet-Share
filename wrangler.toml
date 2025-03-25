@@ -6,5 +6,8 @@ kv_namespaces = [
   { binding = "SNIPPETS", id = "" }
 ]
 
+[vars]
+ALLOWED_ORIGINS = "http://localhost:3001,http://localhost:3000,https://snip.goodheart.tech"
+
 [site]
 bucket = "./dist" 

@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCopy, faTrash, faClock } from '@fortawesome/free-solid-svg-icons';
+import { config } from './config';
 
 interface Snippet {
   id: string;
@@ -35,14 +36,30 @@ const App: React.FC = () => {
       createdAt: new Date(),
     };
 
-    // TODO: Implement Cloudflare KV storage
-    setCreatedSnippet(snippet);
+    try {
+      const response = await fetch(config.getApiUrl('/api/snippets'), {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(snippet),
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to create snippet');
+      }
+
+      setCreatedSnippet(snippet);
+    } catch (error) {
+      console.error('Error creating snippet:', error);
+      // TODO: Add error handling UI
+    }
   };
 
   const copyToClipboard = async () => {
     if (!createdSnippet) return;
     
-    const url = `snip.goodheart.tech/${createdSnippet.id}`;
+    const url = config.getSnippetUrl(createdSnippet.id);
     await navigator.clipboard.writeText(url);
     setCopied(true);
     setTimeout(() => setCopied(false), 2000);
@@ -65,7 +82,7 @@ const App: React.FC = () => {
             </label>
             <div className="flex gap-2">
               <span className="input-field flex items-center">
-                snip.goodheart.tech/
+                {new URL(config.baseUrl).host}/
               </span>
               <input
                 type="text"
@@ -120,7 +137,7 @@ const App: React.FC = () => {
           </h2>
           <div className="flex items-center gap-2 bg-rich-black p-3 rounded">
             <span className="flex-1">
-              snip.goodheart.tech/{createdSnippet.id}
+              {config.getSnippetUrl(createdSnippet.id)}
             </span>
             <button
               className="btn-primary px-4"
