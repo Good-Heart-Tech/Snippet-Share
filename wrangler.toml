@@ -7,7 +7,4 @@ kv_namespaces = [
 ]
 
 [vars]
-ALLOWED_ORIGINS = "http://localhost:3001,http://localhost:3000,https://snip.goodheart.tech"
-
-[site]
-bucket = "./dist" 
+ALLOWED_ORIGINS = "http://localhost:3000,https://snip.goodheart.tech"

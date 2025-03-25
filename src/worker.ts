@@ -1,6 +1,7 @@
 import { Hono } from 'hono';
 import { cors } from 'hono/cors';
 import { prettyJSON } from 'hono/pretty-json';
+import { Context, Next } from 'hono';
 
 interface Env {
   SNIPPETS: KVNamespace;
@@ -16,28 +17,29 @@ interface Snippet {
 const app = new Hono<{ Bindings: Env }>();
 
 // Configure CORS with dynamic allowed origins
-app.use('*', async (c, next) => {
+app.use('*', async (c: Context, next: Next) => {
   const allowedOrigins = c.env.ALLOWED_ORIGINS.split(',');
   const origin = c.req.header('Origin');
   
   if (origin && allowedOrigins.includes(origin)) {
-    await cors({
-      origin: origin,
-      allowMethods: ['GET', 'POST', 'OPTIONS'],
-      allowHeaders: ['Content-Type'],
-      exposeHeaders: ['Content-Length'],
-      maxAge: 600,
-      credentials: true,
-    })(c, next);
-  } else {
-    await next();
+    c.header('Access-Control-Allow-Origin', origin);
+    c.header('Access-Control-Allow-Methods', 'GET, POST, OPTIONS');
+    c.header('Access-Control-Allow-Headers', 'Content-Type');
+    c.header('Access-Control-Max-Age', '600');
+    c.header('Access-Control-Allow-Credentials', 'true');
+
+    if (c.req.method === 'OPTIONS') {
+      return new Response(null, { status: 204 });
+    }
   }
+  
+  await next();
 });
 
 app.use('*', prettyJSON());
 
 // Create a new snippet
-app.post('/api/snippets', async (c) => {
+app.post('/api/snippets', async (c: Context) => {
   const { id, content, expiration } = await c.req.json();
 
   if (!id || !content || !expiration) {
@@ -58,7 +60,7 @@ app.post('/api/snippets', async (c) => {
 });
 
 // Get a snippet by ID
-app.get('/api/snippets/:id', async (c) => {
+app.get('/api/snippets/:id', async (c: Context) => {
   const id = c.req.param('id');
   const snippet = await c.env.SNIPPETS.get(id);
 

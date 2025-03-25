@@ -4,7 +4,7 @@
   "description": "A modern version of cl1p.net for sharing snippets",
   "scripts": {
     "dev": "vite",
-    "build": "tsc && vite build",
+    "build": "npm install && tsc && vite build",
     "preview": "vite preview",
     "deploy": "wrangler deploy"
   },
@@ -13,11 +13,13 @@
     "@fortawesome/fontawesome-free": "^6.5.1",
     "@fortawesome/free-solid-svg-icons": "^6.5.1",
     "@fortawesome/react-fontawesome": "^0.2.0",
+    "hono": "^4.7.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "zustand": "^4.5.0"
   },
   "devDependencies": {
+    "@cloudflare/workers-types": "^4.20250321.0",
     "@types/react": "^18.2.0",
     "@types/react-dom": "^18.2.0",
     "@vitejs/plugin-react": "^4.2.0",
