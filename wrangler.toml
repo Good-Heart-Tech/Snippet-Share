@@ -3,7 +3,7 @@ main = "src/worker.ts"
 compatibility_date = "2024-01-01"
 
 kv_namespaces = [
-  { binding = "SNIPPETS", id = "" }
+  { binding = "SNIPPETS", id = "0b29664744ba4bec832389d98fc13e30" }
 ]
 
 [vars]
