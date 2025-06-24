@@ -34,13 +34,13 @@ function renderHTML(
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${title || pageTitle}</title>
     <style>
-      body { background: ${backgroundColor}; color: ${fontColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-      .container { max-width: 1100px; min-width: 320px; margin: 2rem auto; background: #13232e; border-radius: 16px; box-shadow: 0 2px 24px #0003; padding: 3rem 3rem 2rem 3rem; }
+      body { background: ${backgroundColor}; color: ${accentColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+      a { color: ${accentColor}; text-decoration: underline; }
       h1 { color: ${accentColor}; font-size: 2.5rem; }
       .accent { color: ${accentColor}; }
       .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; }
-      .copy-btn { background: ${accentColor}; color: #fff; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; }
-      .input, select { width: 100%; padding: 0.7rem; margin: 0.5rem 0 1.2rem 0; border-radius: 6px; border: 1px solid #333; background: #181f2a; color: #fff; font-size: 1.1rem; }
+      .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; }
+      .input, select { width: 100%; padding: 0.7rem; margin: 0.5rem 0 1.2rem 0; border-radius: 6px; border: 2px solid ${accentColor}; background: #181f2a; color: ${accentColor}; font-size: 1.1rem; }
       .label { font-weight: bold; margin-top: 1rem; display: block; font-size: 1.1rem; }
       .info { color: #aaa; font-size: 1.05em; margin-bottom: 1.2rem; }
       .error { color: #ff6b6b; margin-bottom: 1.2rem; font-size: 1.1rem; }
@@ -72,13 +72,13 @@ function renderHTML(
         visibility: visible;
         opacity: 1;
       }
-      @media (max-width: 1100px) { .container { max-width: 98vw; padding: 1.2rem; } .row { flex-direction: column; gap: 0; } }
+      @media (max-width: 1100px) { .row { flex-direction: column; gap: 0; } }
       .slider {
         width: 100%;
         margin: 0.7rem 0 1.2rem 0;
-        accent-color: ${accentColor};
+        accent-color: ${fontColor};
         height: 2.5px;
-        background: #222;
+        background: ${fontColor};
         border-radius: 2px;
         outline: none;
         transition: background 0.2s;
@@ -120,23 +120,21 @@ function renderHTML(
       }
       .slider::-webkit-slider-runnable-track {
         height: 2.5px;
-        background: #222;
+        background: ${fontColor};
         border-radius: 2px;
       }
       .slider::-ms-fill-lower {
-        background: #222;
+        background: ${fontColor};
       }
       .slider::-ms-fill-upper {
-        background: #222;
+        background: ${fontColor};
       }
     </style>
   </head>
   <body>
-    <div class="container">
-      <h1>${pageTitle}</h1>
-      <div class="info">${welcomeMessage}</div>
-      ${content}
-    </div>
+    <h1>${pageTitle}</h1>
+    <div class="info">${welcomeMessage}</div>
+    ${content}
     <script>
       function copyToClipboard(id) {
         const el = document.getElementById(id);
