@@ -1,5 +1,4 @@
 // Removed import for '@cloudflare/workers-types' as types are globally available in Workers environment
-
 export interface Env {
   SNIPPETS: KVNamespace;
   PAGE_TITLE?: string;
@@ -37,7 +36,7 @@ function renderHTML(
       body { background: ${backgroundColor}; color: ${accentColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
       a { color: ${accentColor}; text-decoration: underline; }
       h1 { color: ${accentColor}; font-size: 2.5rem; }
-      .main-content { max-width: 1300px; margin: 2rem auto; padding: 0 1.5rem; box-sizing: border-box; }
+      .main-content { max-width: 1300px; margin: 2rem auto; padding-left: max(env(safe-area-inset-left), 1.5rem); padding-right: max(env(safe-area-inset-right), 1.5rem); box-sizing: border-box; }
       .accent { color: ${accentColor}; }
       .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; }
       .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; transition: background 0.2s, color 0.2s; position: relative; display: inline-flex; align-items: center; gap: 0.5em; }
@@ -77,7 +76,11 @@ function renderHTML(
       }
       @media (max-width: 1100px) { .row { flex-direction: column; gap: 0; } }
       @media (max-width: 700px) {
-        .main-content { max-width: 100vw; padding: 0 0.5rem; }
+        .main-content {
+          max-width: 100vw;
+          padding-left: max(env(safe-area-inset-left), 0.5rem);
+          padding-right: max(env(safe-area-inset-right), 0.5rem);
+        }
         html, body { overflow-x: hidden; }
       }
       .slider {
