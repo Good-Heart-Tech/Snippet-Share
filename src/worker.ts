@@ -37,9 +37,11 @@ function renderHTML(
       body { background: ${backgroundColor}; color: ${accentColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
       a { color: ${accentColor}; text-decoration: underline; }
       h1 { color: ${accentColor}; font-size: 2.5rem; }
+      .main-content { max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
       .accent { color: ${accentColor}; }
       .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; }
-      .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; }
+      .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; transition: background 0.2s, color 0.2s; position: relative; }
+      .copy-btn.copied { background: #4caf50 !important; color: #fff !important; }
       .input, select { width: 100%; padding: 0.7rem; margin: 0.5rem 0 1.2rem 0; border-radius: 6px; border: 2px solid ${accentColor}; background: #181f2a; color: ${accentColor}; font-size: 1.1rem; }
       .label { font-weight: bold; margin-top: 1rem; display: block; font-size: 1.1rem; }
       .info { color: #aaa; font-size: 1.05em; margin-bottom: 1.2rem; }
@@ -132,21 +134,34 @@ function renderHTML(
     </style>
   </head>
   <body>
-    <h1>${pageTitle}</h1>
-    <div class="info">${welcomeMessage}</div>
-    ${content}
+    <div class="main-content">
+      <h1>${pageTitle}</h1>
+      <div class="info">${welcomeMessage}</div>
+      ${content}
+    </div>
     <script>
-      function copyToClipboard(id) {
+      function copyToClipboard(id, btnId) {
         const el = document.getElementById(id);
-        navigator.clipboard.writeText(el.innerText || el.value);
+        const btn = btnId ? document.getElementById(btnId) : null;
+        navigator.clipboard.writeText(el.innerText || el.value).then(() => {
+          if (btn) {
+            const orig = btn.textContent;
+            btn.classList.add('copied');
+            btn.textContent = 'Copied!';
+            setTimeout(() => {
+              btn.classList.remove('copied');
+              btn.textContent = orig;
+            }, 1500);
+          }
+        });
       }
       // Slug auto-formatting
       const slugInput = document.querySelector('input[name="slug"]');
       if (slugInput) {
         slugInput.addEventListener('input', function() {
           let val = slugInput.value;
-          // Replace spaces with dashes, remove invalid chars, lowercase
-          val = val.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase();
+          // Replace spaces with dashes, remove invalid chars (allow a-z, A-Z, 0-9, -, _), keep case-insensitive
+          val = val.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '');
           slugInput.value = val;
         });
       }
@@ -230,7 +245,7 @@ export default {
         <div class="success">Snippet created!</div>
         <div>Share this link:</div>
         <div class="codebox" id="linkbox">${link}</div>
-        <button class="copy-btn" onclick="copyToClipboard('linkbox')">Copy Link</button>
+        <button class="copy-btn" id="copy-link-btn" onclick="copyToClipboard('linkbox', 'copy-link-btn')">Copy Link</button>
         <div style="margin-top:2rem;"><a href="/">Create another snippet</a></div>
       `, { title: 'Snippet Created' });
     }
@@ -263,7 +278,7 @@ export default {
       return renderHTML(env, `
         <div class="info">Views left: <span class="accent">${snippet.remainingViews}</span> &nbsp; | &nbsp; Days left: <span class="accent">${daysLeft}</span></div>
         <div class="codebox" id="snippetbox">${snippet.value.replace(/</g, '&lt;')}</div>
-        <button class="copy-btn" onclick="copyToClipboard('snippetbox')">Copy Snippet</button>
+        <button class="copy-btn" id="copy-snippet-btn" onclick="copyToClipboard('snippetbox', 'copy-snippet-btn')">Copy Snippet</button>
         <div style="margin-top:2rem;"><a href="/">Create your own snippet</a></div>
       `, { title: 'View Snippet' });
     }
