@@ -1,35 +1,25 @@
 {
   "name": "snippet-share",
   "version": "1.0.0",
-  "description": "A modern version of cl1p.net for sharing snippets",
+  "description": "A minimal snippet sharing app using Cloudflare Workers",
+  "main": "src/worker.ts",
   "scripts": {
-    "dev": "vite",
-    "build:frontend": "vite build",
-    "build:worker": "wrangler build",
-    "preview": "vite preview",
-    "deploy:worker": "npm run build:frontend && wrangler deploy",
-    "deploy:frontend": "npm run build:frontend"
+    "dev": "wrangler dev",
+    "deploy": "wrangler deploy",
+    "preview": "wrangler dev --local"
   },
-  "dependencies": {
-    "@fontsource/nunito-sans": "^5.0.0",
-    "@fortawesome/fontawesome-free": "^6.5.1",
-    "@fortawesome/free-solid-svg-icons": "^6.5.1",
-    "@fortawesome/react-fontawesome": "^0.2.0",
-    "hono": "^4.7.5",
-    "react": "^18.2.0",
-    "react-dom": "^18.2.0",
-    "zustand": "^4.5.0"
-  },
+  "keywords": [
+    "cloudflare-workers",
+    "wishlist",
+    "serverless",
+    "typescript"
+  ],
+  "author": "HappyEarthDay",
+  "license": "MIT",
   "devDependencies": {
-    "@cloudflare/workers-types": "^4.20250321.0",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "@vitejs/plugin-react": "^4.2.0",
-    "autoprefixer": "^10.4.17",
-    "postcss": "^8.4.35",
-    "tailwindcss": "^3.4.1",
-    "typescript": "^5.3.3",
-    "vite": "^6.2.3",
     "wrangler": "^3.0.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
-}
+} 

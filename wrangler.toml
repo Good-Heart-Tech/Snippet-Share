@@ -1,10 +1,20 @@
-name = "snippet-share"
+name = "wishlist"
 main = "src/worker.ts"
-compatibility_date = "2024-01-01"
+compatibility_date = "2025-06-24" # always try to use TODAY's date when re-deploying to keep JavaScript runtime up to date
+workers_dev = false #disables the public visibility of the worker
 
-kv_namespaces = [
-  { binding = "SNIPPETS", id = "0b29664744ba4bec832389d98fc13e30" }
+# DEFINE CUSTOM DOMAIN BELOW
+routes = [
+  { pattern = "snip.nonprofittools.org", custom_domain = true }
 ]
 
 [vars]
-ALLOWED_ORIGINS = "http://localhost:3000,https://snip.goodheart.tech"
+PAGE_TITLE = "Good Heart Tech's Secure Snippet Sharing"
+WELCOME_MESSAGE = "Note: For secure password sharing, we recommend https://push.goodheart.tech"
+BACKGROUND_COLOR = "#091D20"
+FONT_COLOR = "#FFFFFF"
+ACCENT_COLOR = "#7189ff"
+
+[[kv_namespaces]]
+binding = "SNIPPETS"
+id = "0b29664744ba4bec832389d98fc13e30"
