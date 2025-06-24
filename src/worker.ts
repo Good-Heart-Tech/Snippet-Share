@@ -34,10 +34,10 @@ function renderHTML(
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>${title || pageTitle}</title>
     <style>
-      body { background: ${backgroundColor}; color: ${accentColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
+      body { background: ${backgroundColor}; color: ${accentColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
       a { color: ${accentColor}; text-decoration: underline; }
       h1 { color: ${accentColor}; font-size: 2.5rem; }
-      .main-content { max-width: 1300px; margin: 2rem auto; padding: 0 1rem; }
+      .main-content { max-width: 1300px; margin: 2rem auto; padding: 0 1.5rem; box-sizing: border-box; }
       .accent { color: ${accentColor}; }
       .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; }
       .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; transition: background 0.2s, color 0.2s; position: relative; display: inline-flex; align-items: center; gap: 0.5em; }
@@ -76,6 +76,10 @@ function renderHTML(
         opacity: 1;
       }
       @media (max-width: 1100px) { .row { flex-direction: column; gap: 0; } }
+      @media (max-width: 700px) {
+        .main-content { max-width: 100vw; padding: 0 0.5rem; }
+        html, body { overflow-x: hidden; }
+      }
       .slider {
         width: 100%;
         margin: 0.7rem 0 1.2rem 0;
@@ -176,7 +180,7 @@ function renderHTML(
       if (slugInput) {
         slugInput.addEventListener('input', function() {
           let val = slugInput.value;
-          // Replace only spaces with dashes, allow a-z, A-Z, 0-9, -, _
+          // Replace only spaces with dashes, allow a-z, A-Z, 0-9, -, _ (preserve case)
           val = val.replace(/\s+/g, '-');
           val = val.replace(/[^a-zA-Z0-9_-]/g, '');
           slugInput.value = val;
@@ -272,7 +276,11 @@ export default {
     if (request.method === 'GET' && isValidSlug(path)) {
       const snippetRaw = await env.SNIPPETS.get(path);
       if (!snippetRaw) {
-        return renderHTML(env, `<div class="error">Snippet not found or expired.</div>`, { title: 'Not Found' });
+        return renderHTML(env, `
+          <div class="error" style="font-size:1.3rem;">🚫 Snippet not found or expired.</div>
+          <div style="margin:1.5rem 0; color:#fff; font-size:1.1rem;">Would you like to create your own snippet?</div>
+          <button class="copy-btn" style="margin-top:1rem; font-size:1.1rem;" onclick="window.location.href='/'">✨ Go to Main Page</button>
+        `, { title: 'Not Found' });
       }
       let snippet: Snippet;
       try {
