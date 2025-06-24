@@ -10,7 +10,7 @@ routes = [
 
 [vars]
 PAGE_TITLE = "Good Heart Tech's Secure Snippet Sharing"
-WELCOME_MESSAGE = For <i>password</i> sharing, we recommend <a href="https://push.goodheart.tech" target="_blank">🔗https://push.goodheart.tech</a>"
+WELCOME_MESSAGE = "For <i>password</i> sharing, we recommend <a href="https://push.goodheart.tech" target="_blank">🔗https://push.goodheart.tech</a>"
 BACKGROUND_COLOR = "#091D20"
 FONT_COLOR = "#FFFFFF"
 ACCENT_COLOR = "#b3bfff"
