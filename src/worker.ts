@@ -35,18 +35,100 @@ function renderHTML(
     <title>${title || pageTitle}</title>
     <style>
       body { background: ${backgroundColor}; color: ${fontColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
-      .container { max-width: 600px; margin: 2rem auto; background: #13232e; border-radius: 12px; box-shadow: 0 2px 12px #0002; padding: 2rem; }
-      h1 { color: ${accentColor}; }
+      .container { max-width: 1100px; min-width: 320px; margin: 2rem auto; background: #13232e; border-radius: 16px; box-shadow: 0 2px 24px #0003; padding: 3rem 3rem 2rem 3rem; }
+      h1 { color: ${accentColor}; font-size: 2.5rem; }
       .accent { color: ${accentColor}; }
-      .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1rem; font-family: 'Fira Mono', monospace; margin: 1rem 0; position: relative; }
-      .copy-btn { background: ${accentColor}; color: #fff; border: none; border-radius: 6px; padding: 0.5rem 1rem; cursor: pointer; margin-left: 0.5rem; }
-      .input, select { width: 100%; padding: 0.5rem; margin: 0.5rem 0 1rem 0; border-radius: 6px; border: 1px solid #333; background: #181f2a; color: #fff; }
-      .label { font-weight: bold; margin-top: 1rem; display: block; }
-      .info { color: #aaa; font-size: 0.95em; margin-bottom: 1rem; }
-      .error { color: #ff6b6b; margin-bottom: 1rem; }
-      .success { color: #4caf50; margin-bottom: 1rem; }
-      .row { display: flex; gap: 1rem; }
-      @media (max-width: 600px) { .container { padding: 1rem; } }
+      .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; }
+      .copy-btn { background: ${accentColor}; color: #fff; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; }
+      .input, select { width: 100%; padding: 0.7rem; margin: 0.5rem 0 1.2rem 0; border-radius: 6px; border: 1px solid #333; background: #181f2a; color: #fff; font-size: 1.1rem; }
+      .label { font-weight: bold; margin-top: 1rem; display: block; font-size: 1.1rem; }
+      .info { color: #aaa; font-size: 1.05em; margin-bottom: 1.2rem; }
+      .error { color: #ff6b6b; margin-bottom: 1.2rem; font-size: 1.1rem; }
+      .success { color: #4caf50; margin-bottom: 1.2rem; font-size: 1.1rem; }
+      .row { display: flex; gap: 2rem; }
+      .tooltip {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+      }
+      .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 260px;
+        background-color: #222;
+        color: #fff;
+        text-align: left;
+        border-radius: 6px;
+        padding: 0.7rem;
+        position: absolute;
+        z-index: 1;
+        bottom: 125%;
+        left: 50%;
+        margin-left: -130px;
+        opacity: 0;
+        transition: opacity 0.2s;
+        font-size: 1rem;
+      }
+      .tooltip:hover .tooltiptext {
+        visibility: visible;
+        opacity: 1;
+      }
+      @media (max-width: 1100px) { .container { max-width: 98vw; padding: 1.2rem; } .row { flex-direction: column; gap: 0; } }
+      .slider {
+        width: 100%;
+        margin: 0.7rem 0 1.2rem 0;
+        accent-color: ${accentColor};
+        height: 2.5px;
+        background: #222;
+        border-radius: 2px;
+        outline: none;
+        transition: background 0.2s;
+      }
+      .slider::-webkit-slider-thumb {
+        appearance: none;
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: ${accentColor};
+        cursor: pointer;
+        box-shadow: 0 2px 8px #0004;
+        border: 2px solid #fff2;
+        transition: background 0.2s;
+      }
+      .slider::-moz-range-thumb {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: ${accentColor};
+        cursor: pointer;
+        box-shadow: 0 2px 8px #0004;
+        border: 2px solid #fff2;
+        transition: background 0.2s;
+      }
+      .slider::-ms-thumb {
+        width: 22px;
+        height: 22px;
+        border-radius: 50%;
+        background: ${accentColor};
+        cursor: pointer;
+        box-shadow: 0 2px 8px #0004;
+        border: 2px solid #fff2;
+        transition: background 0.2s;
+      }
+      .slider:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px ${accentColor}44;
+      }
+      .slider::-webkit-slider-runnable-track {
+        height: 2.5px;
+        background: #222;
+        border-radius: 2px;
+      }
+      .slider::-ms-fill-lower {
+        background: #222;
+      }
+      .slider::-ms-fill-upper {
+        background: #222;
+      }
     </style>
   </head>
   <body>
@@ -59,6 +141,16 @@ function renderHTML(
       function copyToClipboard(id) {
         const el = document.getElementById(id);
         navigator.clipboard.writeText(el.innerText || el.value);
+      }
+      // Slug auto-formatting
+      const slugInput = document.querySelector('input[name="slug"]');
+      if (slugInput) {
+        slugInput.addEventListener('input', function() {
+          let val = slugInput.value;
+          // Replace spaces with dashes, remove invalid chars, lowercase
+          val = val.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '').toLowerCase();
+          slugInput.value = val;
+        });
       }
     </script>
   </body>
@@ -82,19 +174,23 @@ export default {
     if (request.method === 'GET' && (path === '' || path === 'new')) {
       // Show create form
       return renderHTML(env, `
-        <form method="POST" action="/new">
-          <label class="label">Snippet Slug (unique, 3-32 chars):</label>
-          <input class="input" name="slug" required pattern="[a-zA-Z0-9_-]{3,32}" maxlength="32" minlength="3" placeholder="e.g. my-secret" />
+        <form method="POST" action="/new" autocomplete="off">
+          <label class="label">Name (Slug)
+            <span class="tooltip">ℹ️
+              <span class="tooltiptext">3-32 characters. Only letters, numbers, dashes (-), and underscores (_). Spaces and invalid characters will be replaced or removed. This will be used in the URL as /your-slug.</span>
+            </span>
+          </label>
+          <input class="input" name="slug" required pattern="[a-zA-Z0-9_-]{3,32}" maxlength="32" minlength="3" placeholder="e.g. my-secret" autocomplete="off" />
           <label class="label">Snippet Text:</label>
           <textarea class="input" name="value" required rows="6" maxlength="5000" placeholder="Paste your snippet here..."></textarea>
           <div class="row">
             <div style="flex:1">
-              <label class="label">Expire After (days):</label>
-              <input class="input" type="number" name="days" min="1" max="90" value="7" />
+              <label class="label">Expire After (days): <span id="daysValue" class="accent">7</span></label>
+              <input class="slider" type="range" name="days" min="1" max="90" value="7" oninput="document.getElementById('daysValue').textContent = this.value" />
             </div>
             <div style="flex:1">
-              <label class="label">Expire After (views):</label>
-              <input class="input" type="number" name="views" min="1" max="30" value="7" />
+              <label class="label">Expire After (views): <span id="viewsValue" class="accent">7</span></label>
+              <input class="slider" type="range" name="views" min="1" max="30" value="7" oninput="document.getElementById('viewsValue').textContent = this.value" />
             </div>
           </div>
           <button class="copy-btn" type="submit">Create Snippet</button>
