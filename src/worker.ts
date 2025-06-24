@@ -31,18 +31,20 @@ function renderHTML(
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="icon" type="image/svg+xml" href="https://graphics.goodhearttech.org/GHT/favicons/favicon.svg" />
     <title>${title || pageTitle}</title>
     <style>
-      body { background: ${backgroundColor}; color: ${accentColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; box-sizing: border-box; }
+      html, body, *, *:before, *:after { box-sizing: border-box; }
+      body { background: ${backgroundColor}; color: ${accentColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
       a { color: ${accentColor}; text-decoration: underline; }
       h1 { color: ${accentColor}; font-size: 2.5rem; }
-      .main-content { max-width: 1300px; margin: 2rem auto; padding-left: max(env(safe-area-inset-left), 1.5rem); padding-right: max(env(safe-area-inset-right), 1.5rem); box-sizing: border-box; }
+      .main-content { max-width: 1300px; margin: 2rem auto; padding-left: max(env(safe-area-inset-left), 1.5rem); padding-right: max(env(safe-area-inset-right), 1.5rem); min-width: 0; box-sizing: border-box; }
       .accent { color: ${accentColor}; }
       .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; }
       .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; transition: background 0.2s, color 0.2s; position: relative; display: inline-flex; align-items: center; gap: 0.5em; }
       .copy-btn.copied { background: #4caf50 !important; color: #fff !important; }
       .form-btn-row { padding-top: 1.5rem; }
-      .input, select { width: 100%; padding: 0.7rem; margin: 0.5rem 0 1.2rem 0; border-radius: 6px; border: 2px solid ${accentColor}; background: #181f2a; color: ${accentColor}; font-size: 1.1rem; }
+      .input, select { width: 100%; max-width: 100%; min-width: 0; padding: 0.7rem; margin: 0.5rem 0 1.2rem 0; border-radius: 6px; border: 2px solid ${accentColor}; background: #181f2a; color: ${accentColor}; font-size: 1.1rem; box-sizing: border-box; }
       .label { font-weight: bold; margin-top: 1rem; display: block; font-size: 1.1rem; color: #fff; }
       .info { color: #aaa; font-size: 1.05em; margin-bottom: 1.2rem; }
       .error { color: #ff6b6b; margin-bottom: 1.2rem; font-size: 1.1rem; }
