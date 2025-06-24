@@ -40,7 +40,7 @@ function renderHTML(
       h1 { color: ${accentColor}; font-size: 2.5rem; }
       .main-content { max-width: 1300px; margin: 2rem auto; padding-left: max(env(safe-area-inset-left), 1.5rem); padding-right: max(env(safe-area-inset-right), 1.5rem); min-width: 0; box-sizing: border-box; }
       .accent { color: ${accentColor}; }
-      .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; }
+      .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; border: 2px solid ${accentColor}; }
       .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; transition: background 0.2s, color 0.2s; position: relative; display: inline-flex; align-items: center; gap: 0.5em; }
       .copy-btn.copied { background: #4caf50 !important; color: #fff !important; }
       .form-btn-row { padding-top: 1.5rem; }
@@ -185,10 +185,13 @@ function renderHTML(
       if (slugInput) {
         slugInput.addEventListener('input', function() {
           let val = slugInput.value;
-          // Replace only spaces with dashes, allow a-z, A-Z, 0-9, -, _ (preserve case)
+          // 1. Replace spaces with dashes
           val = val.replace(/\s+/g, '-');
+          // 2. Remove all characters except a-z, A-Z, 0-9, -, _
           val = val.replace(/[^a-zA-Z0-9_-]/g, '');
-          slugInput.value = val;
+          // 3. URL encode the value (but keep dashes and underscores unencoded)
+          // encodeURIComponent will encode all non-allowed chars, but we already filtered them
+          slugInput.value = encodeURIComponent(val);
         });
       }
     </script>
@@ -309,6 +312,7 @@ export default {
       }
       return renderHTML(env, `
         <div class="info">Views left: <span class="accent">${snippet.remainingViews}</span> &nbsp; | &nbsp; Days left: <span class="accent">${daysLeft}</span></div>
+        <div style="color:#fff; font-size:1.1rem; margin-bottom:0.5rem;">These are the snippet contents that have been shared with you:</div>
         <div class="codebox" id="snippetbox">${snippet.value.replace(/</g, '&lt;')}</div>
         <button class="copy-btn" id="copy-snippet-btn" onclick="copyToClipboard('snippetbox', 'copy-snippet-btn')">📋 Copy Snippet</button>
         <div style="margin-top:2rem;"><a href="/">➕ Create your own snippet</a></div>
