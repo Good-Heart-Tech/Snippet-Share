@@ -185,11 +185,9 @@ function renderHTML(
       if (slugInput) {
         slugInput.addEventListener('input', function() {
           let val = slugInput.value;
-          // 1. Replace spaces with dashes
-          val = val.replace(/\s+/g, '-');
-          // 2. Remove all characters except a-z, A-Z, 0-9, -, _
+          console.log('Before:', val.split('').map(c => c.charCodeAt(0)));
           val = val.replace(/[^a-zA-Z0-9_-]/g, '');
-          // 3. Do not encode here, just set the filtered value
+          console.log('After:', val.split('').map(c => c.charCodeAt(0)));
           slugInput.value = val;
         });
       }
