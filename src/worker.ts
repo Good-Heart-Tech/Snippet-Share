@@ -37,13 +37,14 @@ function renderHTML(
       body { background: ${backgroundColor}; color: ${accentColor}; font-family: 'Inter', sans-serif; margin: 0; padding: 0; }
       a { color: ${accentColor}; text-decoration: underline; }
       h1 { color: ${accentColor}; font-size: 2.5rem; }
-      .main-content { max-width: 700px; margin: 2rem auto; padding: 0 1rem; }
+      .main-content { max-width: 1300px; margin: 2rem auto; padding: 0 1rem; }
       .accent { color: ${accentColor}; }
       .codebox { background: #222; color: #fff; border-radius: 8px; padding: 1.2rem; font-family: 'Fira Mono', monospace; margin: 1.5rem 0; position: relative; font-size: 1.1rem; }
-      .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; transition: background 0.2s, color 0.2s; position: relative; }
+      .copy-btn { background: ${accentColor}; color: #000; border: none; border-radius: 6px; padding: 0.6rem 1.2rem; cursor: pointer; margin-left: 0.5rem; font-size: 1rem; transition: background 0.2s, color 0.2s; position: relative; display: inline-flex; align-items: center; gap: 0.5em; }
       .copy-btn.copied { background: #4caf50 !important; color: #fff !important; }
+      .form-btn-row { padding-top: 1.5rem; }
       .input, select { width: 100%; padding: 0.7rem; margin: 0.5rem 0 1.2rem 0; border-radius: 6px; border: 2px solid ${accentColor}; background: #181f2a; color: ${accentColor}; font-size: 1.1rem; }
-      .label { font-weight: bold; margin-top: 1rem; display: block; font-size: 1.1rem; }
+      .label { font-weight: bold; margin-top: 1rem; display: block; font-size: 1.1rem; color: #fff; }
       .info { color: #aaa; font-size: 1.05em; margin-bottom: 1.2rem; }
       .error { color: #ff6b6b; margin-bottom: 1.2rem; font-size: 1.1rem; }
       .success { color: #4caf50; margin-bottom: 1.2rem; font-size: 1.1rem; }
@@ -84,41 +85,56 @@ function renderHTML(
         border-radius: 2px;
         outline: none;
         transition: background 0.2s;
+        cursor: pointer;
       }
       .slider::-webkit-slider-thumb {
         appearance: none;
-        width: 22px;
-        height: 22px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
-        background: ${accentColor};
-        cursor: pointer;
-        box-shadow: 0 2px 8px #0004;
-        border: 2px solid #fff2;
-        transition: background 0.2s;
+        background: linear-gradient(135deg, ${accentColor} 60%, #fff 100%);
+        cursor: grab;
+        box-shadow: 0 2px 12px #0006, 0 0 0 3px #fff4;
+        border: 3px solid #fff;
+        transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+        outline: 2px solid ${accentColor};
+      }
+      .slider:active::-webkit-slider-thumb {
+        background: linear-gradient(135deg, #fff 40%, ${accentColor} 100%);
+        border: 3px solid ${accentColor};
+        box-shadow: 0 2px 16px #0008, 0 0 0 4px ${accentColor}44;
       }
       .slider::-moz-range-thumb {
-        width: 22px;
-        height: 22px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
-        background: ${accentColor};
-        cursor: pointer;
-        box-shadow: 0 2px 8px #0004;
-        border: 2px solid #fff2;
-        transition: background 0.2s;
+        background: linear-gradient(135deg, ${accentColor} 60%, #fff 100%);
+        cursor: grab;
+        box-shadow: 0 2px 12px #0006, 0 0 0 3px #fff4;
+        border: 3px solid #fff;
+        transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+        outline: 2px solid ${accentColor};
+      }
+      .slider:active::-moz-range-thumb {
+        background: linear-gradient(135deg, #fff 40%, ${accentColor} 100%);
+        border: 3px solid ${accentColor};
+        box-shadow: 0 2px 16px #0008, 0 0 0 4px ${accentColor}44;
       }
       .slider::-ms-thumb {
-        width: 22px;
-        height: 22px;
+        width: 28px;
+        height: 28px;
         border-radius: 50%;
-        background: ${accentColor};
-        cursor: pointer;
-        box-shadow: 0 2px 8px #0004;
-        border: 2px solid #fff2;
-        transition: background 0.2s;
+        background: linear-gradient(135deg, ${accentColor} 60%, #fff 100%);
+        cursor: grab;
+        box-shadow: 0 2px 12px #0006, 0 0 0 3px #fff4;
+        border: 3px solid #fff;
+        transition: background 0.2s, border 0.2s, box-shadow 0.2s;
+        outline: 2px solid ${accentColor};
       }
-      .slider:focus {
-        outline: none;
-        box-shadow: 0 0 0 2px ${accentColor}44;
+      .slider:active::-ms-thumb {
+        background: linear-gradient(135deg, #fff 40%, ${accentColor} 100%);
+        border: 3px solid ${accentColor};
+        box-shadow: 0 2px 16px #0008, 0 0 0 4px ${accentColor}44;
       }
       .slider::-webkit-slider-runnable-track {
         height: 2.5px;
@@ -160,8 +176,9 @@ function renderHTML(
       if (slugInput) {
         slugInput.addEventListener('input', function() {
           let val = slugInput.value;
-          // Replace spaces with dashes, remove invalid chars (allow a-z, A-Z, 0-9, -, _), keep case-insensitive
-          val = val.replace(/\s+/g, '-').replace(/[^a-zA-Z0-9_-]/g, '');
+          // Replace only spaces with dashes, allow a-z, A-Z, 0-9, -, _
+          val = val.replace(/\s+/g, '-');
+          val = val.replace(/[^a-zA-Z0-9_-]/g, '');
           slugInput.value = val;
         });
       }
@@ -206,7 +223,9 @@ export default {
               <input class="slider" type="range" name="views" min="1" max="30" value="7" oninput="document.getElementById('viewsValue').textContent = this.value" />
             </div>
           </div>
-          <button class="copy-btn" type="submit">Create Snippet</button>
+          <div class="form-btn-row">
+            <button class="copy-btn" type="submit">✨ Create Snippet</button>
+          </div>
         </form>
       `);
     }
@@ -242,11 +261,11 @@ export default {
       await env.SNIPPETS.put(slug, JSON.stringify(snippet), { expiration: Math.floor(expiresAt / 1000) });
       const link = `${url.origin.replace(/\/$/, '')}/${slug}`;
       return renderHTML(env, `
-        <div class="success">Snippet created!</div>
-        <div>Share this link:</div>
+        <div class="success">Snippet created! 🎉</div>
+        <div style="color:#fff; font-weight:bold;">🔗 Share this link:</div>
         <div class="codebox" id="linkbox">${link}</div>
-        <button class="copy-btn" id="copy-link-btn" onclick="copyToClipboard('linkbox', 'copy-link-btn')">Copy Link</button>
-        <div style="margin-top:2rem;"><a href="/">Create another snippet</a></div>
+        <button class="copy-btn" id="copy-link-btn" onclick="copyToClipboard('linkbox', 'copy-link-btn')">📋 Copy Link</button>
+        <div style="margin-top:2rem;"><a href="/">➕ Create another snippet</a></div>
       `, { title: 'Snippet Created' });
     }
     // Handle viewing a snippet
@@ -278,8 +297,8 @@ export default {
       return renderHTML(env, `
         <div class="info">Views left: <span class="accent">${snippet.remainingViews}</span> &nbsp; | &nbsp; Days left: <span class="accent">${daysLeft}</span></div>
         <div class="codebox" id="snippetbox">${snippet.value.replace(/</g, '&lt;')}</div>
-        <button class="copy-btn" id="copy-snippet-btn" onclick="copyToClipboard('snippetbox', 'copy-snippet-btn')">Copy Snippet</button>
-        <div style="margin-top:2rem;"><a href="/">Create your own snippet</a></div>
+        <button class="copy-btn" id="copy-snippet-btn" onclick="copyToClipboard('snippetbox', 'copy-snippet-btn')">📋 Copy Snippet</button>
+        <div style="margin-top:2rem;"><a href="/">➕ Create your own snippet</a></div>
       `, { title: 'View Snippet' });
     }
     // Fallback 404
