@@ -189,9 +189,8 @@ function renderHTML(
           val = val.replace(/\s+/g, '-');
           // 2. Remove all characters except a-z, A-Z, 0-9, -, _
           val = val.replace(/[^a-zA-Z0-9_-]/g, '');
-          // 3. URL encode the value (but keep dashes and underscores unencoded)
-          // encodeURIComponent will encode all non-allowed chars, but we already filtered them
-          slugInput.value = encodeURIComponent(val);
+          // 3. Do not encode here, just set the filtered value
+          slugInput.value = val;
         });
       }
     </script>
@@ -271,7 +270,7 @@ export default {
         maxViews: views,
       };
       await env.SNIPPETS.put(slug, JSON.stringify(snippet), { expiration: Math.floor(expiresAt / 1000) });
-      const link = `${url.origin.replace(/\/$/, '')}/${slug}`;
+      const link = `${url.origin.replace(/\/$/, '')}/${encodeURIComponent(slug)}`;
       return renderHTML(env, `
         <div class="success">Snippet created! 🎉</div>
         <div style="color:#fff; font-weight:bold;">🔗 Share this link:</div>
