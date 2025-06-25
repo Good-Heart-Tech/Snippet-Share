@@ -1,4 +1,4 @@
-name = "wishlist"
+name = "snippet-share"
 main = "src/worker.ts"
 compatibility_date = "2025-06-24" # always try to use TODAY's date when re-deploying to keep JavaScript runtime up to date
 workers_dev = false #disables the public visibility of the worker
