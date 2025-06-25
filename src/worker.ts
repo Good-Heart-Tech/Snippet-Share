@@ -309,7 +309,7 @@ export default {
       }
       return renderHTML(env, `
         <div class="info">Views left: <span class="accent">${snippet.remainingViews}</span> &nbsp; | &nbsp; Days left: <span class="accent">${daysLeft}</span></div>
-        <div style="color:#fff; font-size:1.1rem; margin-bottom:0.5rem;">These are the snippet contents that have been shared with you:</div>
+        <div style="color:#fff; font-size:1.1rem; margin-bottom:0.5rem;">Here’s what’s been shared with you:</div>
         <div class="codebox" id="snippetbox">${snippet.value.replace(/</g, '&lt;')}</div>
         <button class="copy-btn" id="copy-snippet-btn" onclick="copyToClipboard('snippetbox', 'copy-snippet-btn')">📋 Copy Snippet</button>
         <div style="margin-top:2rem;"><a href="/">➕ Create your own snippet</a></div>
