@@ -18,22 +18,22 @@ const GITHUB = '<svg aria-hidden="true" viewBox="0 0 24 24" width="26" height="2
 
 // Good Heart Tech brand colors (from the brand kit tokens) and the standard light footer.
 const STYLES = `
-      :root { --primary:#7189FF; --charcoal:#394053; --light-blue:#A0DDFF; --rich-black:#091D20; --white:#FFFFFF; --hudu-primary:#586CD0; --hudu-light:#D6DDFF; --wash:#F3F5FF; }
+      :root { --primary:#7189FF; --charcoal:#394053; --light-blue:#A0DDFF; --rich-black:#091D20; --white:#FFFFFF; --primary-dark:#586CD0; --primary-tint:#D6DDFF; --wash:#F3F5FF; }
       html, body, *, *:before, *:after { box-sizing: border-box; }
       body { min-height: 100vh; display: flex; flex-direction: column; background: var(--white); color: var(--charcoal); font-family: ui-sans-serif, system-ui, "Segoe UI", Helvetica, Arial, sans-serif; line-height: 1.55; margin: 0; }
-      a { color: var(--hudu-primary); }
+      a { color: var(--primary-dark); }
       a:hover { color: var(--rich-black); }
       :focus-visible { outline: 3px solid var(--primary); outline-offset: 2px; }
       h1 { color: var(--rich-black); font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; letter-spacing: -0.02em; margin: 0 0 1rem; text-align: center; text-wrap: balance; }
       .main-content { width: 100%; max-width: 900px; margin: 2.5rem auto; padding: 0 1.25rem; flex: 1; }
-      .accent { color: var(--hudu-primary); font-weight: 700; }
+      .accent { color: var(--primary-dark); font-weight: 700; }
       .info { margin-bottom: 1.25rem; text-align: center; }
-      .codebox { background: var(--wash); color: var(--rich-black); border: 2px solid var(--hudu-light); border-radius: 8px; padding: 1.1rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 1rem 0; font-size: 1.05rem; white-space: pre-wrap; overflow-wrap: anywhere; }
-      .copy-btn { background: var(--hudu-primary); color: var(--white); border: 2px solid var(--hudu-primary); border-radius: 8px; padding: 0.7rem 1.3rem; cursor: pointer; font: inherit; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5em; }
+      .codebox { background: var(--wash); color: var(--rich-black); border: 2px solid var(--primary-tint); border-radius: 8px; padding: 1.1rem; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; margin: 1rem 0; font-size: 1.05rem; white-space: pre-wrap; overflow-wrap: anywhere; }
+      .copy-btn { background: var(--primary-dark); color: var(--white); border: 2px solid var(--primary-dark); border-radius: 8px; padding: 0.7rem 1.3rem; cursor: pointer; font: inherit; font-weight: 600; display: inline-flex; align-items: center; gap: 0.5em; }
       .copy-btn:hover { background: var(--rich-black); border-color: var(--rich-black); }
       .copy-btn.copied { background: #17653A; border-color: #17653A; }
       .form-btn-row { padding-top: 1rem; }
-      .input, select { width: 100%; padding: 0.75rem 0.9rem; margin: 0.4rem 0 1.2rem 0; border-radius: 8px; border: 2px solid var(--hudu-light); background: var(--white); color: var(--rich-black); font: inherit; font-size: 1.05rem; }
+      .input, select { width: 100%; padding: 0.75rem 0.9rem; margin: 0.4rem 0 1.2rem 0; border-radius: 8px; border: 2px solid var(--primary-tint); background: var(--white); color: var(--rich-black); font: inherit; font-size: 1.05rem; }
       .input:hover { border-color: var(--primary); }
       textarea.input { resize: vertical; }
       .label { font-weight: 700; margin-top: 1rem; display: block; font-size: 1.05rem; color: var(--rich-black); }
@@ -41,20 +41,20 @@ const STYLES = `
       .success { background: #E6F5EB; color: #17653A; border-radius: 8px; padding: 0.8rem 1rem; margin-bottom: 1.2rem; font-weight: 600; }
       .row { display: flex; gap: 2rem; }
       .row > div { flex: 1; }
-      .tooltip { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.3em; height: 1.3em; border-radius: 50%; background: var(--hudu-light); color: var(--rich-black); font-size: 0.85em; font-weight: 700; cursor: help; margin-left: 0.3em; }
+      .tooltip { position: relative; display: inline-flex; align-items: center; justify-content: center; width: 1.3em; height: 1.3em; border-radius: 50%; background: var(--primary-tint); color: var(--rich-black); font-size: 0.85em; font-weight: 700; cursor: help; margin-left: 0.3em; }
       .tooltip .tooltiptext { visibility: hidden; width: 260px; background: var(--rich-black); color: var(--white); text-align: left; border-radius: 6px; padding: 0.7rem; position: absolute; z-index: 1; bottom: 135%; left: 50%; margin-left: -130px; opacity: 0; transition: opacity 0.2s; font-size: 0.95rem; font-weight: 400; }
       .tooltip:hover .tooltiptext, .tooltip:focus .tooltiptext { visibility: visible; opacity: 1; }
-      .slider { width: 100%; margin: 0.8rem 0 1.2rem; accent-color: var(--hudu-primary); cursor: pointer; }
+      .slider { width: 100%; margin: 0.8rem 0 1.2rem; accent-color: var(--primary-dark); cursor: pointer; }
       @media (max-width: 800px) { .row { flex-direction: column; gap: 0; } }
-      .ght-footer { width: 100%; margin-top: auto; padding: 22px 24px 26px; text-align: center; background: var(--wash); border-top: 1px solid var(--hudu-light); color: var(--charcoal); }
+      .ght-footer { width: 100%; margin-top: auto; padding: 22px 24px 26px; text-align: center; background: var(--wash); border-top: 1px solid var(--primary-tint); color: var(--charcoal); }
       .ght-footer-note { max-width: 52rem; margin: 0 auto 16px; font-size: .8125rem; font-style: italic; }
       .ght-footer-row { display: flex; align-items: center; justify-content: center; gap: 20px; flex-wrap: wrap; }
       .ght-footer-logo img { display: block; height: 30px; width: auto; }
       .ght-footer-copy { font-size: .9375rem; }
-      .ght-footer-donate { display: inline-flex; align-items: center; gap: 8px; line-height: 1.2; padding: 9px 22px; border-radius: 8px; background: var(--hudu-primary); color: var(--white); font-weight: 600; text-decoration: none; }
+      .ght-footer-donate { display: inline-flex; align-items: center; gap: 8px; line-height: 1.2; padding: 9px 22px; border-radius: 8px; background: var(--primary-dark); color: var(--white); font-weight: 600; text-decoration: none; }
       .ght-footer-donate:hover { background: var(--rich-black); color: var(--white); }
       .ght-footer-github { display: inline-flex; color: var(--rich-black); }
-      .ght-footer-github:hover { color: var(--hudu-primary); }
+      .ght-footer-github:hover { color: var(--primary-dark); }
 `;
 
 function escapeHtml(text: string): string {
